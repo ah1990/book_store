@@ -1,5 +1,7 @@
 class Api::Mobile::V1::ShopsController < Api::Mobile::V1::ApplicationController
 
+  helper_method :count_available_books_in_store
+
   def index
     @shops = Shop.all
   end
@@ -42,6 +44,19 @@ class Api::Mobile::V1::ShopsController < Api::Mobile::V1::ApplicationController
 
   def count
     params[:books_count].to_i
+  end
+
+  def count_available_books_in_store(shop)
+    books = shop.shop_items.with_state(:in_stock).joins(:book).group("books.id", "books.title").order("books.id").count
+
+    books = books.to_a.flatten.each_slice(3).to_a.map do |el|
+      {
+          "id": el[0],
+          "title": el[1],
+          "copies_in_stock": el[2]
+      }
+    end
+    books
   end
   
 end
