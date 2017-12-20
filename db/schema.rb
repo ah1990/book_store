@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20171218204925) do
   create_table "shop_items", force: :cascade do |t|
     t.bigint "book_id"
     t.bigint "shop_id"
+    t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_shop_items_on_book_id"
