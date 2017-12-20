@@ -5,7 +5,7 @@ class Shop::Item < ApplicationRecord
   state_machine :state, :initial => :in_stock do
 
     event :mark_as_sold do
-      transition [:created, :in_stock] => :sold
+      transition [:in_stock] => :sold
     end
 
   end

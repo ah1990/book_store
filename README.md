@@ -1,24 +1,32 @@
-# README
+# Book store
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Instalation
 
-Things you may want to cover:
+```
+bundle install
+rake db:setup
+rake db:migrate
+rake db:seed
 
-* Ruby version
+rails s
+```
 
-* System dependencies
+## API Requests
 
-* Configuration
+#### List of shops selling at least one book of chosen publisher
 
-* Database creation
+```
+[GET] 0.0.0.0:3000/api/mobile/v1/shops/publisher/:id/books
+```
 
-* Database initialization
+#### Mark a current book in shop as sold
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+[PUT] 0.0.0.0:3000/api/mobile/v1/shops/:shop_id/book/:book_id/mark_as_sold
+```
+###### body
+```
+{
+  books_count: some_value
+}
+```

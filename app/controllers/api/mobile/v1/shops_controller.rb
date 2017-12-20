@@ -3,7 +3,8 @@ class Api::Mobile::V1::ShopsController < Api::Mobile::V1::ApplicationController
   helper_method :count_available_books_in_store
 
   def index
-    @shops = Shop.all
+    @publisher_id = params[:id]
+    @shops = Shop.joins(shop_items: {book: :publisher}).where("publishers.id = ?", @publisher_id).distinct
   end
 
   def mark_as_sold
@@ -47,7 +48,7 @@ class Api::Mobile::V1::ShopsController < Api::Mobile::V1::ApplicationController
   end
 
   def count_available_books_in_store(shop)
-    books = shop.shop_items.with_state(:in_stock).joins(:book).group("books.id", "books.title").order("books.id").count
+    books = shop.shop_items.with_state(:in_stock).joins(:book, book: :publisher).where("publishers.id = ?", @publisher_id).group("books.id", "books.title").order("books.id").count
 
     books = books.to_a.flatten.each_slice(3).to_a.map do |el|
       {

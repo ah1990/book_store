@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :mobile do
       namespace :v1 do
-        get 'shops', to: 'shops#index'
+        get 'shops/publisher/:id/books', to: 'shops#index'
         put 'shops/:shop_id/book/:book_id/mark_as_sold', to: 'shops#mark_as_sold'
       end
     end
